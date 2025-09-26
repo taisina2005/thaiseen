@@ -1,0 +1,33 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+data = pd.read_csv('titanic.csv')
+
+
+data['FamilySize'] = data['SibSp'] + data['Parch'] + 1
+
+
+fig, axes = plt.subplots(2, 2, figsize=(13, 10))
+fig.suptitle('Titanic Data - Simple EDA', fontsize=11)
+
+
+sns.heatmap(data.isna(), cbar=False, cmap='magma', ax=axes[0, 0])
+axes[0, 0].set_title('Missing Data')
+  
+
+sns.countplot(x='Sex', data=data, ax=axes[0, 1])
+axes[0, 1].set_title('Sex Count')
+
+
+sns.countplot(x='Embarked', hue='Pclass', data=data, ax=axes[1, 0])
+axes[1, 0].set_title('Embarked vs Class')
+
+
+sns.histplot(data['FamilySize'], bins=8, kde=True, ax=axes[1, 1])
+axes[1, 1].set_title('Family Size Distribution')
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.show()
